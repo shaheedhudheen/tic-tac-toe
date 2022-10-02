@@ -1,0 +1,78 @@
+/* basic reset */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    font-family: 'Inter', sans-serif;
+    --green: #26dc4e;
+    --red: #F03009;
+    --yellow: #FFF310;
+    --orange: #FF5B2D;
+
+}
+
+header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.heading {
+    font-size: 3rem;
+    font-weight: 800;
+}
+
+.tic {
+    color: var(--red);
+}
+
+.tac {
+    color: var(--yellow);
+}
+
+.toe {
+    color: var(--green);
+}
+
+.box {
+    background-color: #F1F1F1;
+    border-radius: 10px;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+}
+
+.container {
+    margin-top: 2rem;
+
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    justify-content: center;
+    gap: 10px;
+}
+
+
+section{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.button{
+    padding: .8rem 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-style: none;
+    background-color: var(--orange);
+    color: #fff;
+    border-radius: 10px;
+
+    cursor: pointer;
+}
