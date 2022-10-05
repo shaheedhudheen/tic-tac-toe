@@ -1,54 +1,71 @@
-const gameBoard = (() => {
-  let board = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
+const Players = (name, sign) => {
+  const getName = () => name;
+  const getSign = () => sign;
 
-  function addMarks(index, mark) {
-    board[index] = mark;
-  }
-
-  function getMark(index){
-    return board[index]
-  }
-
-  return { addMarks, getMark };
-})();
-
-const players = () => {
-
-   ``
+  return { getName, getSign };
 };
 
-//display controller
-const displayController = (() => {
-  const boxContainer = document.querySelector(".container");
-  const boxes = document.querySelectorAll(".box");
-  
+const gameBoard = (() => {
+  let gameboard = ["X", "O", "X", "O", "X", "O", "X", "O", "X"];
 
-  //insert value of array to each box
-  boxes.forEach((box, index) => {
-    box.addEventListener(
-      "click",
-      (e) => {
-        const index = box.getAttribute("data-index");
-        gameBoard.addMarks(index, "X");
-      },
-      { once: true }
-    );
-  });
-
-  return {  };
-})();
-
-const gameController = (() => {
-  
-  let currentPlayer = players.playerX
-
-  function switchPlayer(currentPlayer) {
-    if(currentPlayer = playerX){
-      currentPlayer = players.playerO
-    } else{
-      return
-    }
+  function setBoard(index, sign) {
+    gameboard[index] = sign;
   }
 
-  return { switchPlayer };
+  function getBoard(index) {
+    return gameboard[index];
+  }
+
+  return { getBoard, setBoard, gameboard };
 })();
+
+const gameController = (()=> {
+  
+})()
+
+const displayController = (() => {
+  let boxes = document.querySelectorAll(".box");
+
+  boxes.forEach((box) => {});
+
+  let playerX = Players("ahammed", "X");
+  let playerO = Players("Shaheedhudheen", "O");
+
+  let currentPlayer = playerX;
+
+  function switchPlayers() {
+     if (currentPlayer.getSign() === playerX.getSign()) {
+      currentPlayer = playerO;
+     } else {
+       currentPlayer = playerX;
+     }
+  }
+
+  function addMarker() {
+    boxes.forEach((box) => {
+
+      box.addEventListener(
+        "click",
+        (e) => {
+          let index = box.getAttribute("data-index");
+          console.log(currentPlayer.getSign());
+          if ((currentPlayer.getSign() === playerX.getSign())) {
+            gameBoard.setBoard(index, playerX.getSign())
+          } else {
+            gameBoard.setBoard(index, playerO.getSign());
+          }
+          box.textContent = gameBoard.getBoard(index)
+          switchPlayers();
+        },
+        { once: true }
+      );
+    });
+  }
+
+  return { addMarker };
+})();
+
+
+
+
+displayController.addMarker();
