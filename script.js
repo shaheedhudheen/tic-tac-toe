@@ -6,41 +6,26 @@ const Players = (name, sign) => {
 };
 
 const gameBoard = (() => {
-  let gameboard = ["", "", "", "", "", "", "", "", ""];
+  let board = [""];
 
   function setBoard(index, sign) {
-    gameboard[index] = sign;
+    board[index] = sign;
   }
 
   function getBoard(index) {
-    return gameboard[index];
+    return board[index];
   }
 
-  return { getBoard, setBoard, gameboard };
-})();
-
-const gameController = (() => {
-  const winningConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-  ];
-
-  
+  return { getBoard, setBoard, board };
 })();
 
 const displayController = (() => {
+
+  let board = gameBoard.board;
   let boxes = document.querySelectorAll(".box");
 
-  boxes.forEach((box) => {});
-
-  let playerX = Players("ahammed", "X");
-  let playerO = Players("Shaheedhudheen", "O");
+  let playerX = Players("playerX", "X");
+  let playerO = Players("playerO", "O");
 
   let currentPlayer = playerX;
 
@@ -58,13 +43,13 @@ const displayController = (() => {
         "click",
         (e) => {
           let index = box.getAttribute("data-index");
-          console.log(currentPlayer.getSign());
           if (currentPlayer.getSign() === playerX.getSign()) {
             gameBoard.setBoard(index, playerX.getSign());
           } else {
             gameBoard.setBoard(index, playerO.getSign());
           }
           box.textContent = gameBoard.getBoard(index);
+          checkWinner();
           switchPlayers();
         },
         { once: true }
@@ -72,7 +57,37 @@ const displayController = (() => {
     });
   }
 
+  const winningConditions = [
+    [0, 1, 2], //horizontals
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6], //verticals
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8], //diagonals
+    [2, 4, 6],
+  ];
+
+function checkWinner() {
+  const scoreUpdate = document.querySelector('.score')
+        winningConditions.forEach((item, index) => { // [0, 1, 2, 3, 4, 5, 6, 7]
+            if (gameBoard.board[item[0]] === currentPlayer.getSign() && gameBoard.board[item[1]] === currentPlayer.getSign() && gameBoard.board[item[2]] === currentPlayer.getSign()) {
+                const button = document.querySelector('.button')
+                scoreUpdate.textContent = `Player ${currentPlayer.getSign()} Won`;  
+                button.textContent = "Restart"
+            }
+        })
+        if (gameBoard.board.length > 8) {
+          scoreUpdate.textContent = `Tie`;
+        }
+    }
+
   return { addMarker };
 })();
 
+// const gameController = (() => {
+
+// })();
+
 displayController.addMarker();
+// displayController.resetGame();
